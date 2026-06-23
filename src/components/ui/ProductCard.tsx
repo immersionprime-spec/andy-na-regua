@@ -1,0 +1,46 @@
+import { PlaceholderMedia } from "./PlaceholderMedia";
+import {
+  buildProductInquiryMessage,
+  buildWhatsAppLink,
+} from "@/lib/whatsapp";
+
+type ProductCardProps = {
+  nome: string;
+  descricao?: string;
+  preco: number;
+  categoria: string;
+};
+
+function formatPreco(value: number): string {
+  return `R$ ${value.toFixed(2).replace(".", ",")}`;
+}
+
+export function ProductCard({ nome, descricao, preco }: ProductCardProps) {
+  const whatsappHref = buildWhatsAppLink(buildProductInquiryMessage(nome));
+
+  return (
+    <div
+      className="flex flex-col overflow-hidden bg-bg-surface"
+      style={{ borderRadius: "var(--radius-card)" }}
+    >
+      <PlaceholderMedia label={nome} aspect="square" />
+      <div className="flex flex-1 flex-col gap-1 p-3">
+        <h3 className="text-sm font-semibold text-text-warm">{nome}</h3>
+        {descricao && (
+          <p className="line-clamp-2 text-xs text-text-muted-2">{descricao}</p>
+        )}
+        <div className="mt-auto flex items-center justify-between pt-2">
+          <span className="font-bold text-text-primary">{formatPreco(preco)}</span>
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-semibold text-state-success hover:underline"
+          >
+            Perguntar no WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}

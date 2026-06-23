@@ -1,0 +1,30 @@
+:root {
+  --bg-base: #0a0a0a;
+  --bg-surface: #111111;
+  --bg-surface-hover: #1a1a1a;
+
+  --text-primary: #fafafa;
+  --text-warm: #f0ece4;
+  --text-muted-1: #999999;
+  --text-muted-2: #888888;
+  --text-muted-3: #666666;
+  --text-muted-4: #555555;
+
+  --action-primary: #cc1f1f;
+  --action-primary-hover: #e53535;
+  --action-selection: #2563eb;
+  --action-selection-light: #3b82f6;
+
+  --state-success: #4ade80;
+  --state-success-deep: #22c55e;
+  --state-error: #ef4444;
+  --state-warning: #fbbf24;
+
+  --light-block-bg: #fafafa;
+  --light-block-text: #0a0a0a;
+
+  --radius-card: 16px;
+  --radius-pill: 9999px;
+  --touch-min: 48px;
+  --card-min-height: 72px;
+}
