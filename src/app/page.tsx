@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFAB } from "@/components/layout/WhatsAppFAB";
 import { StickyAgendarButton } from "@/components/layout/StickyAgendarButton";
+import { PreloadIntro } from "@/components/layout/PreloadIntro";
 import { Hero } from "@/components/sections/Hero";
 import { BeforeAfterSection } from "@/components/sections/BeforeAfterSection";
 import { MidPageCta } from "@/components/sections/MidPageCta";
@@ -15,6 +16,7 @@ import { LocationSection } from "@/components/sections/LocationSection";
 export default function Home() {
   return (
     <>
+      <PreloadIntro />
       <Header />
       <main className="pb-14 md:pb-0">
         <Hero />

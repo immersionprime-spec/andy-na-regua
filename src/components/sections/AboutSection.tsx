@@ -8,9 +8,9 @@ export function AboutSection() {
     >
       <div className="mx-auto max-w-3xl">
         {/* TODO copy */}
-        <h2 className="mb-6 text-2xl font-bold">Sobre a Andy Na Régua</h2>
+        <h2 className="mb-6 font-display text-4xl md:text-5xl">Sobre a Andy Na Régua</h2>
 
-        <p className="mb-4 text-sm leading-relaxed opacity-80">
+        <p className="drop-cap mb-4 text-base leading-relaxed opacity-90">
           {/* PLACEHOLDER: copy provisório */}
           A Andy Na Régua é uma barbearia em Balneário Camboriú focada em
           cortes masculinos, barba e cuidados de estética. Este texto é

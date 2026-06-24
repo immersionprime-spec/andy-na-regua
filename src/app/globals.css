@@ -3,6 +3,17 @@
 
 @theme inline {
   --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: "Cloister Black", "UnifrakturMaguntia", "UnifrakturCook", serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -32,4 +43,32 @@ body {
     opacity: 1;
     transform: none;
   }
+}
+
+/* O bypass do preload em visitas de retorno é feito por uma <style> tag injetada
+   pelo script blocking em layout.tsx (evita hydration mismatch). Nenhuma regra
+   adicional é necessária aqui. */
+
+/* Textura de grão sutil para Hero e seções com vídeo/imagem.
+   Quebra o look "polished digital" e dá sensação de cartaz impresso. */
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 200px 200px;
+}
+
+/* Drop cap editorial — primeira letra do parágrafo em blackletter gigante.
+   Use a classe .drop-cap no <p> da abertura da seção Sobre. */
+.drop-cap::first-letter {
+  font-family: var(--font-display);
+  font-size: 4.5em;
+  line-height: 0.85;
+  float: left;
+  margin-right: 0.12em;
+  margin-top: 0.05em;
+  color: var(--accent-gold);
 }

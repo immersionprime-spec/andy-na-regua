@@ -10,7 +10,7 @@ export function ProductShowcase() {
     <section id="vitrine" className="bg-bg-base px-4 py-16">
       <div className="mx-auto max-w-6xl">
         {/* TODO copy */}
-        <h2 className="mb-8 text-2xl font-bold text-text-primary">Vitrine</h2>
+        <h2 className="mb-10 font-display text-4xl text-text-warm md:text-5xl">Vitrine</h2>
 
         {loading && (
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">

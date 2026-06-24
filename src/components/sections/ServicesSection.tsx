@@ -21,7 +21,7 @@ export function ServicesSection() {
     <section id="servicos" className="bg-bg-base px-4 py-16">
       <div className="mx-auto max-w-6xl">
         {/* TODO copy */}
-        <h2 className="mb-8 text-2xl font-bold text-text-primary">Serviços</h2>
+        <h2 className="mb-10 font-display text-4xl text-text-warm md:text-5xl">Serviços</h2>
 
         {loading && (
           <div className="flex flex-col gap-3">

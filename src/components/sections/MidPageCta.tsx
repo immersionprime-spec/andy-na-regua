@@ -5,7 +5,7 @@ export function MidPageCta() {
     <section className="bg-bg-surface px-4 py-12 text-center">
       <div className="mx-auto max-w-6xl">
         {/* TODO copy */}
-        <h2 className="mb-6 text-xl font-bold text-text-primary">
+        <h2 className="mb-6 font-display text-3xl text-text-warm md:text-4xl">
           Bora marcar o seu horário?
         </h2>
         <a

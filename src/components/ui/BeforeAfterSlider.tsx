@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
-import { PlaceholderMedia } from "./PlaceholderMedia";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { BrandedPlaceholder } from "./BrandedPlaceholder";
 
 type BeforeAfterSliderProps = {
   beforeSrc: string;
@@ -78,44 +78,58 @@ export function BeforeAfterSlider({ beforeSrc, afterSrc }: BeforeAfterSliderProp
       }}
       onPointerCancel={() => setDragging(false)}
     >
+      {/* Camada ANTES — fallback sempre presente atrás; imagem por cima quando carrega */}
       <div className="absolute inset-0">
-        {beforeError ? (
-          <PlaceholderMedia label="Antes" aspect="portrait" />
-        ) : (
+        <BrandedPlaceholder label="Antes" labelPosition="left" />
+        {!beforeError && (
           <img
             src={beforeSrc}
-            alt="Antes"
-            className="h-full w-full object-cover"
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
             onError={() => setBeforeError(true)}
+            onLoad={(e) => {
+              // Safety net: se o Next dev devolver uma resposta inválida (ex.: HTML 404)
+              // em vez de uma imagem real, o onError nem sempre dispara. Checamos
+              // dimensões naturais para garantir que é uma imagem válida.
+              const img = e.currentTarget;
+              if (img.naturalWidth < 50 || img.naturalHeight < 50) {
+                setBeforeError(true);
+              }
+            }}
             draggable={false}
           />
         )}
       </div>
 
+      {/* Camada DEPOIS — clipPath revela conforme o slider; mesma estratégia de fallback */}
       <div
         className="absolute inset-0"
         style={{ clipPath: `inset(0 0 0 ${position}%)` }}
       >
-        {afterError ? (
-          <PlaceholderMedia label="Depois" aspect="portrait" />
-        ) : (
+        <BrandedPlaceholder label="Depois" labelPosition="right" />
+        {!afterError && (
           <img
             src={afterSrc}
-            alt="Depois"
-            className="h-full w-full object-cover"
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
             onError={() => setAfterError(true)}
+            onLoad={(e) => {
+              const img = e.currentTarget;
+              if (img.naturalWidth < 50 || img.naturalHeight < 50) {
+                setAfterError(true);
+              }
+            }}
             draggable={false}
           />
         )}
       </div>
 
+      {/* Slider handle */}
       <div
         className="pointer-events-none absolute bottom-0 top-0 w-0.5 bg-text-primary"
         style={{ left: `${position}%`, transform: "translateX(-50%)" }}
       >
-        <div
-          className="absolute left-1/2 top-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-text-primary text-sm font-bold text-bg-base"
-        >
+        <div className="absolute left-1/2 top-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-text-primary text-sm font-bold text-bg-base shadow-lg">
           ↔
         </div>
       </div>

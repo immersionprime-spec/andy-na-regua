@@ -21,7 +21,7 @@ export function TestimonialsSection() {
     <section className="bg-bg-surface px-4 py-16">
       <div className="mx-auto max-w-6xl">
         {/* TODO copy */}
-        <h2 className="mb-8 text-2xl font-bold text-text-primary">
+        <h2 className="mb-10 font-display text-4xl text-text-warm md:text-5xl">
           O que dizem sobre a gente
         </h2>
 

@@ -1,3 +1,12 @@
+@font-face {
+  font-family: "Cloister Black";
+  src: url("/font/CloisterBlack.woff2") format("woff2"),
+       url("/font/CloisterBlack.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --bg-base: #0a0a0a;
   --bg-surface: #111111;
@@ -15,6 +24,9 @@
   --action-selection: #2563eb;
   --action-selection-light: #3b82f6;
 
+  --accent-gold: #c9a961;
+  --accent-gold-soft: #a88c4a;
+
   --state-success: #4ade80;
   --state-success-deep: #22c55e;
   --state-error: #ef4444;
@@ -27,4 +39,6 @@
   --radius-pill: 9999px;
   --touch-min: 48px;
   --card-min-height: 72px;
+
+  --font-display: "Cloister Black", "UnifrakturMaguntia", "UnifrakturCook", serif;
 }
