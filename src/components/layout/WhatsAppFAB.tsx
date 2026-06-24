@@ -12,7 +12,7 @@ export function WhatsAppFAB() {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-[72px] right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-state-success-deep text-text-primary shadow-lg md:bottom-4"
+      className="fixed bottom-4 left-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-state-success-deep text-text-primary shadow-lg md:left-auto md:right-4"
       aria-label="WhatsApp"
     >
       <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">

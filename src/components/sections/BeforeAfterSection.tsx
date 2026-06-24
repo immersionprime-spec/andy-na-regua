@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider";
 
 const PAIRS = Array.from({ length: 4 }, (_, i) => {
@@ -9,6 +12,48 @@ const PAIRS = Array.from({ length: 4 }, (_, i) => {
 });
 
 export function BeforeAfterSection() {
+  // Estado do carrossel mobile: índice do par atualmente centralizado.
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Rastreia qual slide está centralizado via IntersectionObserver no container scrollável.
+  useEffect(() => {
+    const container = carouselRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Pega o slide com maior intersectionRatio dentro do viewport do container.
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        const idx = slideRefs.current.findIndex((el) => el === visible.target);
+        if (idx >= 0) setActiveIndex(idx);
+      },
+      {
+        root: container,
+        threshold: [0.5, 0.75, 1],
+      },
+    );
+
+    slideRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToIndex = (idx: number) => {
+    const clamped = Math.max(0, Math.min(PAIRS.length - 1, idx));
+    const target = slideRefs.current[clamped];
+    if (target) {
+      target.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    }
+  };
+
   return (
     <section
       id="antes-depois"
@@ -57,15 +102,85 @@ export function BeforeAfterSection() {
         </div>
 
         {/* Mobile: carrossel horizontal com snap */}
-        <div className="-mx-4 flex gap-4 overflow-x-auto px-4 pb-2 snap-x snap-mandatory md:hidden">
+        <div
+          ref={carouselRef}
+          className="-mx-4 flex gap-4 overflow-x-auto px-4 pb-2 snap-x snap-mandatory md:hidden"
+        >
           {PAIRS.map((pair, i) => (
-            <div key={i} className="w-[85vw] shrink-0 snap-center">
+            <div
+              key={i}
+              ref={(el) => {
+                slideRefs.current[i] = el;
+              }}
+              className="w-[85vw] shrink-0 snap-center"
+            >
               <BeforeAfterSlider
                 beforeSrc={pair.beforeSrc}
                 afterSrc={pair.afterSrc}
               />
             </div>
           ))}
+        </div>
+
+        {/* Controles do carrossel (só mobile) — seta vermelha, dots, seta azul */}
+        <div className="mt-6 flex items-center justify-center gap-5 md:hidden">
+          {/* Seta voltar — vermelha (espelha barber pole) */}
+          <button
+            type="button"
+            onClick={() => scrollToIndex(activeIndex - 1)}
+            disabled={activeIndex === 0}
+            aria-label="Par anterior"
+            className="flex items-center justify-center rounded-full bg-action-primary text-text-primary shadow-lg transition-all hover:bg-action-primary-hover disabled:cursor-not-allowed disabled:opacity-30"
+            style={{
+              minHeight: "var(--touch-min)",
+              minWidth: "var(--touch-min)",
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+
+          {/* Dots de posição */}
+          <div className="flex items-center gap-2">
+            {PAIRS.map((_, i) => {
+              const isActive = i === activeIndex;
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => scrollToIndex(i)}
+                  aria-label={`Ir para par ${i + 1}`}
+                  aria-current={isActive ? "true" : undefined}
+                  className="block h-1.5 rounded-full transition-all"
+                  style={{
+                    width: isActive ? "24px" : "8px",
+                    backgroundColor: isActive
+                      ? "var(--accent-gold)"
+                      : "var(--text-muted-3)",
+                    opacity: isActive ? 1 : 0.6,
+                  }}
+                />
+              );
+            })}
+          </div>
+
+          {/* Seta avançar — azul (espelha barber pole) */}
+          <button
+            type="button"
+            onClick={() => scrollToIndex(activeIndex + 1)}
+            disabled={activeIndex === PAIRS.length - 1}
+            aria-label="Próximo par"
+            className="flex items-center justify-center rounded-full bg-action-selection text-text-primary shadow-lg transition-all hover:bg-action-selection-light disabled:cursor-not-allowed disabled:opacity-30"
+            style={{
+              minHeight: "var(--touch-min)",
+              minWidth: "var(--touch-min)",
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
         </div>
       </div>
     </section>

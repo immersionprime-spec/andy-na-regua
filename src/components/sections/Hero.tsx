@@ -105,20 +105,19 @@ export function Hero() {
           />
         </div>
 
-        {/* Headline em Cloister Black — frases curtas para legibilidade */}
-        <h1
-          className="mt-6 font-display text-6xl leading-[1.02] text-text-warm sm:text-7xl md:text-8xl lg:text-9xl"
+        {/* Logo oficial como peça central — substitui headline placeholder */}
+        <img
+          src="/logo.png"
+          alt="Andy Na Régua — Barbearia"
+          fetchPriority="high"
+          className="mt-6 w-full max-w-[280px] object-contain sm:max-w-sm md:max-w-md lg:max-w-lg"
           style={{
-            textShadow: "0 4px 32px rgba(0, 0, 0, 0.75)",
-            letterSpacing: "0.01em",
+            filter:
+              "drop-shadow(0 4px 32px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 24px rgba(201, 169, 97, 0.15))",
           }}
-        >
-          Corte. Barba.
-          <br />
-          Atitude.
-        </h1>
+        />
 
-        {/* Tagline em italic light, contrastando com a blackletter */}
+        {/* Tagline em italic light, contrastando com a logo */}
         <p
           className="mt-6 text-base font-light italic text-text-warm/90 md:text-lg"
           style={{ textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)" }}

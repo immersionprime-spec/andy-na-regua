@@ -18,7 +18,7 @@ export default function Home() {
     <>
       <PreloadIntro />
       <Header />
-      <main className="pb-14 md:pb-0">
+      <main>
         <Hero />
         <BeforeAfterSection />
         <MidPageCta />
