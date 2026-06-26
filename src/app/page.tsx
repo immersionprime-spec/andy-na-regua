@@ -20,10 +20,10 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <BeforeAfterSection />
         <ServicesSection />
         <MidPageCta />
         <ProductShowcase />
+        <BeforeAfterSection />
         <AboutSection />
         <TeamSection />
         <TestimonialsSection />
