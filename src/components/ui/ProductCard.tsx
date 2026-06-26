@@ -29,12 +29,19 @@ export function ProductCard({ id, nome, descricao, preco }: ProductCardProps) {
       {imgFailed ? (
         <PlaceholderMedia label={nome} aspect="square" />
       ) : (
-        <div className="aspect-square overflow-hidden bg-bg-surface">
+        <div
+          className="aspect-square p-3"
+          style={{
+            backgroundColor: "#ffffff",
+            border: "1px solid var(--accent-gold)",
+            borderRadius: "calc(var(--radius-card) - 4px)",
+          }}
+        >
           <img
             src={`/produtos/${id}.webp`}
             alt={nome}
             loading="lazy"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain"
             onError={() => setImgFailed(true)}
           />
         </div>

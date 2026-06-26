@@ -1,6 +1,7 @@
 "use client";
 
 import { CategoryServiceCard } from "@/components/ui/CategoryServiceCard";
+import { ServiceCategoryAccordion } from "@/components/ui/ServiceCategoryAccordion";
 import { useServicos } from "@/hooks/useServicos";
 import type { Servico } from "@/lib/types";
 
@@ -81,9 +82,10 @@ export function ServicesSection() {
                   items[0]?.categoryLabel ?? category;
 
                 return (
-                  <CategoryServiceCard
+                  <ServiceCategoryAccordion
                     key={category}
                     categoryLabel={categoryLabel}
+                    items={items}
                     precoMinimo={precoMinimo}
                     duracaoMin={duracaoMin}
                     duracaoMax={duracaoMax}
