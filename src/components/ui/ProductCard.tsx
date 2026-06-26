@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { PlaceholderMedia } from "./PlaceholderMedia";
 import {
   buildProductInquiryMessage,
@@ -5,6 +6,7 @@ import {
 } from "@/lib/whatsapp";
 
 type ProductCardProps = {
+  id: string;
   nome: string;
   descricao?: string;
   preco: number;
@@ -15,15 +17,28 @@ function formatPreco(value: number): string {
   return `R$ ${value.toFixed(2).replace(".", ",")}`;
 }
 
-export function ProductCard({ nome, descricao, preco }: ProductCardProps) {
+export function ProductCard({ id, nome, descricao, preco }: ProductCardProps) {
   const whatsappHref = buildWhatsAppLink(buildProductInquiryMessage(nome));
+  const [imgFailed, setImgFailed] = useState(false);
 
   return (
     <div
       className="flex flex-col overflow-hidden bg-bg-surface transition-transform transition-colors duration-150 active:scale-[0.98] active:bg-bg-surface-hover md:hover:bg-bg-surface-hover"
       style={{ borderRadius: "var(--radius-card)" }}
     >
-      <PlaceholderMedia label={nome} aspect="square" />
+      {imgFailed ? (
+        <PlaceholderMedia label={nome} aspect="square" />
+      ) : (
+        <div className="aspect-square overflow-hidden bg-bg-surface">
+          <img
+            src={`/produtos/${id}.webp`}
+            alt={nome}
+            loading="lazy"
+            className="h-full w-full object-cover"
+            onError={() => setImgFailed(true)}
+          />
+        </div>
+      )}
       <div className="flex flex-1 flex-col gap-1 p-3">
         <h3 className="text-sm font-semibold text-text-warm">{nome}</h3>
         {descricao && (

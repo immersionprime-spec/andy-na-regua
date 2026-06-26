@@ -45,6 +45,7 @@ export function ProductShowcase() {
             {data.map((produto) => (
               <ProductCard
                 key={produto.id}
+                id={produto.id}
                 nome={produto.nome}
                 descricao={produto.descricao}
                 preco={produto.preco}
