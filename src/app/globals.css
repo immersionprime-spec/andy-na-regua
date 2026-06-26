@@ -80,40 +80,6 @@ body {
   }
 }
 
-/* Glow neon que acompanha o contorno real da logo (PNG RGBA com alfa real),
-   alternando azul/vermelho do barber pole. drop-shadow() usa a forma alfa do
-   elemento, não uma bounding box — por isso o glow "abraça" as letras em vez
-   de aparecer como uma mancha geométrica genérica.
-   Ciclo de 1.2s, ease-in-out, infinito.
-   Com prefers-reduced-motion: glow estático de baixa intensidade, sem animação. */
-@keyframes logo-neon-glow-pulse {
-  0%, 100% {
-    filter:
-      drop-shadow(0 4px 32px rgba(0, 0, 0, 0.85))
-      drop-shadow(0 0 1.5px rgba(37, 99, 235, 0.85))
-      drop-shadow(0 0 4px rgba(37, 99, 235, 0.45));
-  }
-  50% {
-    filter:
-      drop-shadow(0 4px 32px rgba(0, 0, 0, 0.85))
-      drop-shadow(0 0 1.5px rgba(204, 31, 31, 0.85))
-      drop-shadow(0 0 4px rgba(204, 31, 31, 0.45));
-  }
-}
-
-.logo-neon-glow {
-  animation: logo-neon-glow-pulse 1.2s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .logo-neon-glow {
-    animation: none;
-    filter:
-      drop-shadow(0 4px 32px rgba(0, 0, 0, 0.85))
-      drop-shadow(0 0 2px rgba(120, 65, 135, 0.4));
-  }
-}
-
 /* Textura de grão sutil para Hero e seções com vídeo/imagem.
    Quebra o look "polished digital" e dá sensação de cartaz impresso. */
 .noise-overlay {

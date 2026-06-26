@@ -142,7 +142,10 @@ export function Hero() {
             width={1027}
             height={747}
             fetchPriority="high"
-            className="logo-neon-glow relative w-full max-w-[280px] object-contain sm:max-w-sm md:max-w-md lg:max-w-lg"
+            className="relative w-full max-w-[280px] object-contain sm:max-w-sm md:max-w-md lg:max-w-lg"
+            style={{
+              filter: "drop-shadow(0 4px 32px rgba(0, 0, 0, 0.85))",
+            }}
           />
         </div>
 
