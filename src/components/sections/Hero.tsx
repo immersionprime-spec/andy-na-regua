@@ -136,26 +136,13 @@ export function Hero() {
         </div>
 
         <div className="relative mt-6 flex items-center justify-center">
-          <div
-            className="logo-glow absolute rounded-full"
-            style={{
-              width: "60%",
-              height: "60%",
-              filter: "blur(8px)",
-            }}
-            aria-hidden="true"
-          />
           <img
             src="/logo.png"
             alt="Andy Na Régua — Barbearia"
             width={1027}
             height={747}
             fetchPriority="high"
-            className="relative w-full max-w-[280px] object-contain sm:max-w-sm md:max-w-md lg:max-w-lg"
-            style={{
-              filter:
-                "drop-shadow(0 4px 32px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 24px rgba(201, 169, 97, 0.15))",
-            }}
+            className="logo-neon-glow relative w-full max-w-[280px] object-contain sm:max-w-sm md:max-w-md lg:max-w-lg"
           />
         </div>
 
