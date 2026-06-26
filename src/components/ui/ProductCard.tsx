@@ -30,7 +30,7 @@ export function ProductCard({ id, nome, descricao, preco }: ProductCardProps) {
         <PlaceholderMedia label={nome} aspect="square" />
       ) : (
         <div
-          className="aspect-square p-3"
+          className="flex aspect-square items-center justify-center overflow-hidden p-3"
           style={{
             backgroundColor: "#ffffff",
             border: "1px solid var(--accent-gold)",
