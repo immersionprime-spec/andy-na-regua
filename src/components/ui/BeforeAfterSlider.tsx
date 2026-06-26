@@ -56,11 +56,27 @@ export function BeforeAfterSlider({ beforeSrc, afterSrc }: BeforeAfterSliderProp
   return (
     <div
       ref={containerRef}
-      className="relative overflow-hidden"
+      role="slider"
+      tabIndex={0}
+      aria-label="Comparar antes e depois"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={Math.round(position)}
+      className="relative overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
       style={{
         aspectRatio: "4/5",
         touchAction: "none",
         borderRadius: "var(--radius-card)",
+        outlineColor: "var(--accent-gold)",
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          setPosition((prev) => Math.max(5, prev - 5));
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          setPosition((prev) => Math.min(95, prev + 5));
+        }
       }}
       onPointerDown={(e) => {
         e.currentTarget.setPointerCapture(e.pointerId);

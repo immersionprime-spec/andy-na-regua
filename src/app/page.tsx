@@ -21,8 +21,8 @@ export default function Home() {
       <main>
         <Hero />
         <BeforeAfterSection />
-        <MidPageCta />
         <ServicesSection />
+        <MidPageCta />
         <ProductShowcase />
         <AboutSection />
         <TeamSection />

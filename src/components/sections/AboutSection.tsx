@@ -4,11 +4,29 @@ export function AboutSection() {
   return (
     <section
       id="sobre"
-      className="bg-light-block-bg px-4 py-16 text-light-block-text"
+      className="scroll-reveal relative bg-light-block-bg px-4 py-16 text-light-block-text"
     >
-      <div className="mx-auto max-w-3xl">
+      <div
+        className="pointer-events-none absolute left-0 right-0 top-0 h-6 w-full"
+        style={{
+          background:
+            "linear-gradient(to bottom, var(--bg-base), transparent)",
+        }}
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute bottom-0 left-0 right-0 h-6 w-full"
+        style={{
+          background: "linear-gradient(to top, var(--bg-base), transparent)",
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="relative mx-auto max-w-3xl">
         {/* TODO copy */}
-        <h2 className="mb-6 font-display text-4xl md:text-5xl">Sobre a Andy Na Régua</h2>
+        <h2 className="mb-6 font-display text-4xl md:text-5xl">
+          Sobre a Andy Na Régua
+        </h2>
 
         <p className="drop-cap mb-4 text-base leading-relaxed opacity-90">
           {/* PLACEHOLDER: copy provisório */}

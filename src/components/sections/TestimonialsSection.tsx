@@ -18,7 +18,7 @@ const TESTIMONIALS = [
 
 export function TestimonialsSection() {
   return (
-    <section className="bg-bg-surface px-4 py-16">
+    <section className="scroll-reveal bg-bg-surface px-4 py-16">
       <div className="mx-auto max-w-6xl">
         {/* TODO copy */}
         <h2 className="mb-10 font-display text-4xl text-text-warm md:text-5xl">

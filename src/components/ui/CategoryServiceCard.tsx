@@ -37,7 +37,7 @@ export function CategoryServiceCard({
 
   return (
     <div
-      className="bg-bg-surface px-5 py-4"
+      className="bg-bg-surface px-5 py-4 transition-transform transition-colors duration-150 active:scale-[0.98] active:bg-bg-surface-hover md:hover:bg-bg-surface-hover"
       style={{
         borderRadius: "var(--radius-card)",
         minHeight: "var(--card-min-height)",

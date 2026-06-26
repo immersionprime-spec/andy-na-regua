@@ -2,7 +2,7 @@ import { BrandedPlaceholder } from "@/components/ui/BrandedPlaceholder";
 
 export function TeamSection() {
   return (
-    <section className="bg-bg-base px-4 py-12">
+    <section className="scroll-reveal bg-bg-base px-4 py-12">
       <div className="mx-auto max-w-6xl">
         {/* TODO copy */}
         <h2 className="mb-4 font-display text-4xl text-text-warm md:text-5xl">

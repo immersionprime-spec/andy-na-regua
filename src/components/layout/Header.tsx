@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { BarberPole } from "./BarberPole";
 import { BottomSheetMenu } from "./BottomSheetMenu";
 
@@ -8,6 +8,7 @@ const AGENDAR_URL = process.env.NEXT_PUBLIC_AGENDAR_URL ?? "#";
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   return (
     <>
@@ -16,6 +17,9 @@ export function Header() {
           className="mx-auto flex max-w-6xl items-center justify-between px-4"
           style={{ height: "64px" }}
         >
+          <h1 className="sr-only">
+            Andy Na Régua — Barbearia em Balneário Camboriú
+          </h1>
           <img
             src="/logo.png"
             alt="Andy Na Régua"
@@ -24,6 +28,7 @@ export function Header() {
 
           <div className="flex items-center gap-3">
             <button
+              ref={menuButtonRef}
               type="button"
               className="flex flex-col justify-center gap-1.5 p-2 md:hidden"
               onClick={() => setMenuOpen(true)}
@@ -49,7 +54,11 @@ export function Header() {
         <BarberPole />
       </header>
 
-      <BottomSheetMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
+      <BottomSheetMenu
+        isOpen={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        triggerRef={menuButtonRef}
+      />
     </>
   );
 }

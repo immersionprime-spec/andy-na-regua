@@ -21,6 +21,12 @@ export function PreloadIntro() {
       return;
     }
 
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setVisible(false);
+      sessionStorage.setItem(STORAGE_KEY, "1");
+      return;
+    }
+
     // Trigger do fade-in do logo no próximo frame (garante transição CSS).
     const logoInRaf = requestAnimationFrame(() => setLogoIn(true));
     const fadeTimer = setTimeout(() => setFadingOut(true), DURATION_MS - FADE_OUT_MS);

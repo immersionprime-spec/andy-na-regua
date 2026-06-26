@@ -123,7 +123,11 @@ export function BeforeAfterSection() {
         </div>
 
         {/* Controles do carrossel (só mobile) — seta vermelha, dots, seta azul */}
-        <div className="mt-6 flex items-center justify-center gap-5 md:hidden">
+        <div className="mt-6 flex flex-col items-center gap-3 md:hidden">
+          <p className="sr-only" aria-live="polite">
+            Par {activeIndex + 1} de {PAIRS.length}
+          </p>
+          <div className="flex items-center justify-center gap-5">
           {/* Seta voltar — vermelha (espelha barber pole) */}
           <button
             type="button"
@@ -181,6 +185,7 @@ export function BeforeAfterSection() {
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </button>
+          </div>
         </div>
       </div>
     </section>

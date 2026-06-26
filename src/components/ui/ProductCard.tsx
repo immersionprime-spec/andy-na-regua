@@ -20,7 +20,7 @@ export function ProductCard({ nome, descricao, preco }: ProductCardProps) {
 
   return (
     <div
-      className="flex flex-col overflow-hidden bg-bg-surface"
+      className="flex flex-col overflow-hidden bg-bg-surface transition-transform transition-colors duration-150 active:scale-[0.98] active:bg-bg-surface-hover md:hover:bg-bg-surface-hover"
       style={{ borderRadius: "var(--radius-card)" }}
     >
       <PlaceholderMedia label={nome} aspect="square" />

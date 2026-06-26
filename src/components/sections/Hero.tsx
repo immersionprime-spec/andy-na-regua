@@ -12,9 +12,20 @@ function handleAgendarClick() {
 type HeroVideoProps = {
   src: string;
   label: string;
+  poster?: string;
+  preload?: "auto" | "none";
+  deferSource?: boolean;
+  onReady?: () => void;
 };
 
-function HeroVideo({ src, label }: HeroVideoProps) {
+function HeroVideo({
+  src,
+  label,
+  poster,
+  preload = "auto",
+  deferSource = false,
+  onReady,
+}: HeroVideoProps) {
   const [errored, setErrored] = useState(false);
 
   if (errored) {
@@ -31,30 +42,51 @@ function HeroVideo({ src, label }: HeroVideoProps) {
       loop
       muted
       playsInline
-      preload="auto"
+      preload={preload}
+      poster={poster}
       className="absolute inset-0 h-full w-full object-cover"
       onError={() => setErrored(true)}
+      onCanPlay={onReady}
     >
-      <source src={src} type="video/mp4" />
+      {!deferSource && <source src={src} type="video/mp4" />}
     </video>
   );
 }
 
 export function Hero() {
+  const [mainVideoReady, setMainVideoReady] = useState(false);
+
   return (
     <section className="relative h-[100dvh] overflow-hidden bg-bg-base">
       {/* Mobile: vídeo principal em tela cheia */}
       <div className="absolute inset-0 md:hidden">
-        <HeroVideo src="/hero/video-principal.mp4" label="Vídeo principal" />
+        <HeroVideo
+          src="/hero/video-principal.mp4"
+          label="Vídeo principal"
+          poster="/hero/video-principal-poster.jpg"
+          preload="auto"
+        />
       </div>
 
       {/* Desktop: dois vídeos lado a lado, 50% cada */}
       <div className="absolute inset-0 hidden md:grid md:grid-cols-2">
         <div className="relative h-full w-full overflow-hidden">
-          <HeroVideo src="/hero/video-principal.mp4" label="Vídeo principal" />
+          <HeroVideo
+            src="/hero/video-principal.mp4"
+            label="Vídeo principal"
+            poster="/hero/video-principal-poster.jpg"
+            preload="auto"
+            onReady={() => setMainVideoReady(true)}
+          />
         </div>
         <div className="relative h-full w-full overflow-hidden">
-          <HeroVideo src="/hero/video-secundario.mp4" label="Vídeo secundário" />
+          <HeroVideo
+            src="/hero/video-secundario.mp4"
+            label="Vídeo secundário"
+            poster="/hero/video-secundario-poster.jpg"
+            preload={mainVideoReady ? "auto" : "none"}
+            deferSource={!mainVideoReady}
+          />
         </div>
       </div>
 
@@ -78,7 +110,6 @@ export function Hero() {
 
       {/* Conteúdo sobreposto */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center">
-        {/* Eyebrow */}
         <p
           className="text-[10px] font-semibold uppercase text-accent-gold md:text-xs"
           style={{ letterSpacing: "0.32em" }}
@@ -86,7 +117,6 @@ export function Hero() {
           Barbearia · Balneário Camboriú
         </p>
 
-        {/* Divisor decorativo com losango dourado */}
         <div className="mt-4 flex items-center gap-3">
           <span
             className="block h-px w-12"
@@ -105,10 +135,11 @@ export function Hero() {
           />
         </div>
 
-        {/* Logo oficial como peça central — substitui headline placeholder */}
         <img
           src="/logo.png"
           alt="Andy Na Régua — Barbearia"
+          width={1027}
+          height={747}
           fetchPriority="high"
           className="mt-6 w-full max-w-[280px] object-contain sm:max-w-sm md:max-w-md lg:max-w-lg"
           style={{
@@ -117,7 +148,6 @@ export function Hero() {
           }}
         />
 
-        {/* Tagline em italic light, contrastando com a logo */}
         <p
           className="mt-6 text-base font-light italic text-text-warm/90 md:text-lg"
           style={{ textShadow: "0 2px 16px rgba(0, 0, 0, 0.6)" }}
@@ -125,7 +155,6 @@ export function Hero() {
           Sem complicação.
         </p>
 
-        {/* CTA */}
         <a
           href={AGENDAR_URL}
           onClick={handleAgendarClick}
@@ -146,7 +175,6 @@ export function Hero() {
         </a>
       </div>
 
-      {/* Indicador de scroll sutil no bottom */}
       <div
         className="pointer-events-none absolute bottom-6 left-1/2 z-10 -translate-x-1/2"
         aria-hidden="true"

@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 
 type BottomSheetMenuProps = {
   isOpen: boolean;
   onClose: () => void;
+  triggerRef?: RefObject<HTMLButtonElement | null>;
 };
 
 const MENU_ITEMS = [
@@ -15,17 +16,20 @@ const MENU_ITEMS = [
   { label: "Contato", target: "contato" },
 ];
 
-export function BottomSheetMenu({ isOpen, onClose }: BottomSheetMenuProps) {
-  // Estado interno pra coordenar montagem + animação de entrada/saída.
-  // - rendered: controla se o DOM está montado (transitions precisam disso)
-  // - shown: controla as classes de animação (precisa de um tick após mount pra disparar)
+export function BottomSheetMenu({
+  isOpen,
+  onClose,
+  triggerRef,
+}: BottomSheetMenuProps) {
   const [rendered, setRendered] = useState(false);
   const [shown, setShown] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const wasOpenRef = useRef(false);
 
   useEffect(() => {
     if (isOpen) {
       setRendered(true);
-      // Próximo frame: dispara a transição (de translate-y-full → translate-y-0)
       const raf = requestAnimationFrame(() => setShown(true));
       document.body.style.overflow = "hidden";
       return () => {
@@ -34,14 +38,12 @@ export function BottomSheetMenu({ isOpen, onClose }: BottomSheetMenuProps) {
       };
     } else {
       setShown(false);
-      // Espera animação de saída terminar (320ms) antes de desmontar
       const timer = setTimeout(() => setRendered(false), 320);
       document.body.style.overflow = "";
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
 
-  // Fechar com Escape
   useEffect(() => {
     if (!isOpen) return;
     const handler = (e: KeyboardEvent) => {
@@ -50,6 +52,63 @@ export function BottomSheetMenu({ isOpen, onClose }: BottomSheetMenuProps) {
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [isOpen, onClose]);
+
+  useEffect(() => {
+    if (!isOpen || !shown) return;
+
+    const focusRaf = requestAnimationFrame(() => {
+      const firstItem = navRef.current?.querySelector<HTMLElement>(
+        "button[type='button']",
+      );
+      firstItem?.focus();
+    });
+
+    return () => cancelAnimationFrame(focusRaf);
+  }, [isOpen, shown]);
+
+  useEffect(() => {
+    if (isOpen) {
+      wasOpenRef.current = true;
+      return;
+    }
+    if (wasOpenRef.current) {
+      triggerRef?.current?.focus();
+      wasOpenRef.current = false;
+    }
+  }, [isOpen, triggerRef]);
+
+  useEffect(() => {
+    if (!isOpen || !dialogRef.current) return;
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== "Tab" || !dialogRef.current) return;
+
+      const focusable = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(
+          "button, a[href]",
+        ),
+      ).filter((el) => !el.hasAttribute("disabled"));
+
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (e.shiftKey) {
+        if (active === first || !dialogRef.current.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (active === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleTab);
+    return () => window.removeEventListener("keydown", handleTab);
+  }, [isOpen]);
 
   if (!rendered) return null;
 
@@ -62,8 +121,12 @@ export function BottomSheetMenu({ isOpen, onClose }: BottomSheetMenuProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-[60]" role="dialog" aria-modal="true">
-      {/* Backdrop com fade */}
+    <div
+      ref={dialogRef}
+      className="fixed inset-0 z-[60]"
+      role="dialog"
+      aria-modal="true"
+    >
       <button
         type="button"
         onClick={onClose}
@@ -76,8 +139,8 @@ export function BottomSheetMenu({ isOpen, onClose }: BottomSheetMenuProps) {
         }}
       />
 
-      {/* Sheet com slide-up */}
       <nav
+        ref={navRef}
         className="absolute bottom-0 left-0 right-0 max-h-[80vh] overflow-y-auto bg-bg-surface px-6 pb-10 pt-3 shadow-[0_-12px_40px_rgba(0,0,0,0.5)]"
         style={{
           borderRadius: "20px 20px 0 0",
@@ -85,23 +148,18 @@ export function BottomSheetMenu({ isOpen, onClose }: BottomSheetMenuProps) {
           transition: "transform 320ms cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
-        {/* Indicador de arraste */}
         <div className="mx-auto mb-6 h-1.5 w-12 rounded-full bg-text-muted-3" />
 
-        {/* Eyebrow decorativo */}
         <div className="mb-4 flex items-center justify-center gap-2">
           <span className="block h-px w-6 bg-accent-gold/40" />
           <span className="block h-1.5 w-1.5 rotate-45 bg-accent-gold" />
           <span className="block h-px w-6 bg-accent-gold/40" />
         </div>
 
-        <h2
-          className="mb-6 text-center font-display text-3xl text-text-warm"
-        >
+        <h2 className="mb-6 text-center font-display text-3xl text-text-warm">
           Menu
         </h2>
 
-        {/* Itens de menu — divisores sutis entre eles */}
         <ul className="flex flex-col">
           {MENU_ITEMS.map((item, idx) => (
             <li

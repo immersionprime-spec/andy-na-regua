@@ -9,16 +9,54 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+const siteTitle = "Andy Na Régua — Barbearia em Balneário Camboriú";
+const siteDescription =
+  "Corte, barba e estética masculina em Balneário Camboriú. Agende online.";
+
 export const metadata: Metadata = {
-  title: "Andy Na Régua — Barbearia em Balneário Camboriú",
-  description:
-    "Corte, barba e estética masculina em Balneário Camboriú. Agende online.",
+  title: siteTitle,
+  description: siteDescription,
+  openGraph: {
+    title: siteTitle,
+    description: siteDescription,
+    url: "https://andynaregua.com.br",
+    siteName: "Andy Na Régua",
+    locale: "pt_BR",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Andy Na Régua — Barbearia em Balneário Camboriú",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    images: ["/og-image.jpg"],
+  },
 };
 
-// Script blocking: roda antes do React montar. Se a sessão já viu o preload,
-// injeta uma <style> tag escondendo o overlay imediatamente.
-// Importante: injetamos style em vez de adicionar classe no <html> porque o React
-// rastreia atributos do <html> e geraria erro de hydration mismatch.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BarberShop",
+  name: "Andy Na Régua",
+  url: "https://andynaregua.com.br",
+  image: "https://andynaregua.com.br/logo.png",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Rua 900, nº 41",
+    addressLocality: "Balneário Camboriú",
+    addressRegion: "SC",
+    addressCountry: "BR",
+  },
+  telephone: "+55 47 99304942",
+  openingHours: "Mo-Sa 08:00-22:00",
+};
+
 const preloadSkipScript = `try{if(sessionStorage.getItem('andy-na-regua-preload-shown')){var s=document.createElement('style');s.textContent='[data-preload-intro]{display:none!important}';document.head.appendChild(s)}}catch(e){}`;
 
 export default function RootLayout({
@@ -29,8 +67,6 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={inter.variable}>
       <head>
-        {/* Fallback blackletter via Google Fonts (nome canônico preservado).
-            O @font-face em tokens.css carrega a Cloister Black local; este é o fallback. */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -40,6 +76,10 @@ export default function RootLayout({
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <script dangerouslySetInnerHTML={{ __html: preloadSkipScript }} />
       </head>

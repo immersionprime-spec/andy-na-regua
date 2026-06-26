@@ -18,7 +18,7 @@ export function ServicesSection() {
   const { data, loading, error, refetch } = useServicos();
 
   return (
-    <section id="servicos" className="bg-bg-base px-4 py-16">
+    <section id="servicos" className="scroll-reveal bg-bg-base px-4 py-16">
       <div className="mx-auto max-w-6xl">
         {/* TODO copy */}
         <h2 className="mb-10 font-display text-4xl text-text-warm md:text-5xl">Serviços</h2>
