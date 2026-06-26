@@ -145,7 +145,7 @@ export function LocationSection() {
   const inView = useInView(mapContainerRef, { once: true });
 
   return (
-    <section id="contato" className="scroll-reveal bg-bg-base px-4 py-16">
+    <section id="contato" className="scroll-reveal bg-bg-base px-4 py-16" style={{ scrollMarginTop: "96px" }}>
       <div className="mx-auto max-w-6xl">
         {/* TODO copy */}
         <h2 className="mb-4 font-display text-4xl text-text-warm md:text-5xl">

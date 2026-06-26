@@ -14,7 +14,7 @@ export function ProductShowcase() {
   const temOcultos = !!data && data.length > LIMITE_MOBILE;
 
   return (
-    <section id="vitrine" className="scroll-reveal bg-bg-base px-4 py-16">
+    <section id="vitrine" className="scroll-reveal bg-bg-base px-4 py-16" style={{ scrollMarginTop: "96px" }}>
       <div className="mx-auto max-w-6xl">
         {/* TODO copy */}
         <h2 className="mb-10 font-display text-4xl text-text-warm md:text-5xl">Vitrine</h2>
