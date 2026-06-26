@@ -1,10 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { useProdutos } from "@/hooks/useProdutos";
 
+const LIMITE_MOBILE = 6;
+const LIMITE_DESKTOP = 8;
+
 export function ProductShowcase() {
   const { data, loading, error, refetch } = useProdutos();
+  const [expandido, setExpandido] = useState(false);
+
+  const temOcultos = !!data && data.length > LIMITE_MOBILE;
 
   return (
     <section id="vitrine" className="scroll-reveal bg-bg-base px-4 py-16">
@@ -41,18 +48,50 @@ export function ProductShowcase() {
         )}
 
         {data && !loading && !error && (
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
-            {data.map((produto) => (
-              <ProductCard
-                key={produto.id}
-                id={produto.id}
-                nome={produto.nome}
-                descricao={produto.descricao}
-                preco={produto.preco}
-                categoria={produto.categoriaInferida}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+              {data.map((produto, i) => {
+                // Sem JS de viewport: escondemos por índice usando breakpoints.
+                // i >= 6 some no mobile a menos que expandido; i >= 8 some no desktop a menos que expandido.
+                const ocultoMobile = !expandido && i >= LIMITE_MOBILE;
+                const ocultoDesktop = !expandido && i >= LIMITE_DESKTOP;
+                return (
+                  <div
+                    key={produto.id}
+                    className={
+                      ocultoMobile
+                        ? ocultoDesktop
+                          ? "hidden md:hidden"
+                          : "hidden md:block"
+                        : ocultoDesktop
+                          ? "block md:hidden"
+                          : "block"
+                    }
+                  >
+                    <ProductCard
+                      id={produto.id}
+                      nome={produto.nome}
+                      descricao={produto.descricao}
+                      preco={produto.preco}
+                      categoria={produto.categoriaInferida}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+
+            {!expandido && temOcultos && (
+              <div className="mt-8 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => setExpandido(true)}
+                  className="rounded-xl border border-text-muted-3 px-6 py-3 text-sm font-semibold text-text-primary transition-colors hover:bg-bg-surface"
+                >
+                  Ver mais produtos
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </section>
